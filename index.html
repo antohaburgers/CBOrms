@@ -14,7 +14,7 @@
       <div class="brand">
         <span class="brand-mark" aria-hidden="true">✳</span>
         <div>
-          <div class="brand-title">СВО<span>’</span>rms <small>ALPHA 0.1</small></div>
+          <div class="brand-title">СВО<span>’</span>rms <small>ALPHA 0.2</small></div>
           <div class="brand-sub">ТАКТИЧЕСКАЯ АРТИЛЛЕРИЯ / ЛОКАЛЬНАЯ ДУЭЛЬ</div>
         </div>
       </div>
@@ -27,20 +27,25 @@
     <section class="match-head" aria-label="Состояние матча">
       <div class="team team-blue" id="team-blue">
         <span class="team-symbol">01</span>
-        <div class="team-details"><strong>СИНИЙ ОТРЯД</strong><span id="blue-hp">3 бойца · 300 HP</span></div>
+        <div class="team-details"><strong>СИНИЙ ОТРЯД</strong><span id="blue-hp">5 бойцов · 500 HP</span></div>
       </div>
       <div class="turn-head" id="turn-label" aria-live="polite">ХОД СИНЕГО ОТРЯДА</div>
       <div class="team team-orange" id="team-orange">
-        <div class="team-details"><strong>КРАСНЫЙ ОТРЯД</strong><span id="orange-hp">3 бойца · 300 HP</span></div>
+        <div class="team-details"><strong>КРАСНЫЙ ОТРЯД</strong><span id="orange-hp">5 бойцов · 500 HP</span></div>
         <span class="team-symbol">02</span>
       </div>
     </section>
 
     <section class="battlefield" aria-label="Игровое поле">
-      <canvas id="game" width="1280" height="720" aria-label="Поле боя. Прицел можно менять перетаскиванием по полю"></canvas>
-      <div class="hud-left"><span>ПОЛИГОН 01</span><span>БОЕВОЙ РЕЖИМ: ДУЭЛЬ</span></div>
+      <canvas id="game" width="1280" height="720" aria-label="Большое поле боя. Перетаскивание: прицел или обзор камеры"></canvas>
+      <div class="hud-left"><span>ПОЛИГОН 02 · 3× КАРТА</span><span id="camera-label">КАМЕРА: АВТО</span></div>
       <div class="hud-right"><span id="wind-label">ВЕТЕР 0 м/с</span><span id="round-label">РАУНД 01</span></div>
-      <div class="field-message" id="field-message" role="status">ПЕРЕТАСКИВАЙ ПРИЦЕЛ ИЛИ МЕНЯЙ УГОЛ КНОПКАМИ</div>
+      <div class="field-toolbar">
+        <button class="toolbar-button" id="camera-mode" type="button" aria-pressed="false">✥ ОБЗОР</button>
+        <button class="toolbar-button" id="camera-reset" type="button">◎ К БОЙЦУ</button>
+        <span class="map-position" id="map-position">КАРТА 0%</span>
+      </div>
+      <div class="field-message" id="field-message" role="status">ВЫБЕРИ ОРУЖИЕ И ПРИЦЕЛЬСЯ</div>
       <div class="result-panel" id="result-panel" hidden>
         <span class="result-kicker">МАТЧ ЗАВЕРШЁН</span>
         <h1 id="result-title">ПОБЕДА!</h1>
@@ -49,11 +54,21 @@
       </div>
     </section>
 
+    <section class="arsenal" aria-label="Выбор оружия">
+      <div class="arsenal-top"><strong>АРСЕНАЛ</strong><span id="kill-label">УБИЙСТВА: СИНИЕ 0 · КРАСНЫЕ 0</span></div>
+      <div class="weapon-grid">
+        <button class="weapon selected" id="weapon-launcher" type="button" aria-pressed="true"><span class="weapon-icon">✹</span><span class="weapon-copy"><strong>ГРАНАТОМЁТ</strong><small>∞ · ВЗРЫВ</small></span></button>
+        <button class="weapon" id="weapon-rifle" type="button" aria-pressed="false"><span class="weapon-icon">⌁</span><span class="weapon-copy"><strong>АВТОМАТ</strong><small>∞ · 10 ПУЛЬ</small></span></button>
+        <button class="weapon" id="weapon-cluster" type="button" aria-pressed="false"><span class="weapon-icon">❂</span><span class="weapon-copy"><strong>КЛАСТЕР</strong><small id="cluster-label">2 / 2 · 5 ОСКОЛКОВ</small></span></button>
+        <button class="weapon" id="weapon-artillery" type="button" aria-pressed="false"><span class="weapon-icon">☄</span><span class="weapon-copy"><strong>АРТИЛЛЕРИЯ</strong><small id="artillery-label">НУЖНО 3 УБИЙСТВА</small></span></button>
+      </div>
+    </section>
     <section class="controls" aria-label="Управление">
       <div class="control-group move-group">
-        <div class="control-label">ПЕРЕМЕЩЕНИЕ <span id="steps-label">90 М</span></div>
-        <div class="button-pair">
+        <div class="control-label">ДВИЖЕНИЕ <span id="steps-label">180 ЕД.</span></div>
+        <div class="button-pair move-buttons">
           <button id="move-left" class="control-button" type="button" aria-label="Шаг влево">◀</button>
+          <button id="jump" class="control-button jump-button" type="button" aria-label="Прыгнуть">↑<small>ПРЫЖОК</small></button>
           <button id="move-right" class="control-button" type="button" aria-label="Шаг вправо">▶</button>
         </div>
       </div>
@@ -73,8 +88,8 @@
     </section>
 
     <footer class="footer">
-      <span><strong>ПРИЦЕЛ:</strong> тяни по полю от активного бойца</span>
-      <span><strong>ХОД:</strong> перемещение → прицел → выстрел</span>
+      <span><strong>ПРИЦЕЛ:</strong> проведи по полю · <strong>ОБЗОР:</strong> двигай карту</span>
+      <span><strong>ХОД:</strong> движение / прыжок → оружие → выстрел</span>
       <span><strong>ЦЕЛЬ:</strong> уничтожить противника</span>
     </footer>
   </main>
