@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#101c21">
+  <meta name="description" content="СВО’rms — пошаговая артиллерийская дуэль с физикой, ветром и разрушаемой землёй.">
+  <title>СВО’rms — артиллерийская дуэль</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        <div>
+          <div class="brand-title">СВО<span>’</span>rms <small>ALPHA 0.1</small></div>
+          <div class="brand-sub">ТАКТИЧЕСКАЯ АРТИЛЛЕРИЯ / ЛОКАЛЬНАЯ ДУЭЛЬ</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span class="mode-pill"><span class="live-dot"></span> 2 ИГРОКА НА ОДНОМ УСТРОЙСТВЕ</span>
+        <button class="ghost-button" id="restart" type="button" title="Начать новый матч">↺ <span>НОВЫЙ МАТЧ</span></button>
+      </div>
+    </header>
+
+    <section class="match-head" aria-label="Состояние матча">
+      <div class="team team-blue" id="team-blue">
+        <span class="team-symbol">01</span>
+        <div class="team-details"><strong>СИНИЙ ОТРЯД</strong><span id="blue-hp">3 бойца · 300 HP</span></div>
+      </div>
+      <div class="turn-head" id="turn-label" aria-live="polite">ХОД СИНЕГО ОТРЯДА</div>
+      <div class="team team-orange" id="team-orange">
+        <div class="team-details"><strong>КРАСНЫЙ ОТРЯД</strong><span id="orange-hp">3 бойца · 300 HP</span></div>
+        <span class="team-symbol">02</span>
+      </div>
+    </section>
+
+    <section class="battlefield" aria-label="Игровое поле">
+      <canvas id="game" width="1280" height="720" aria-label="Поле боя. Прицел можно менять перетаскиванием по полю"></canvas>
+      <div class="hud-left"><span>ПОЛИГОН 01</span><span>БОЕВОЙ РЕЖИМ: ДУЭЛЬ</span></div>
+      <div class="hud-right"><span id="wind-label">ВЕТЕР 0 м/с</span><span id="round-label">РАУНД 01</span></div>
+      <div class="field-message" id="field-message" role="status">ПЕРЕТАСКИВАЙ ПРИЦЕЛ ИЛИ МЕНЯЙ УГОЛ КНОПКАМИ</div>
+      <div class="result-panel" id="result-panel" hidden>
+        <span class="result-kicker">МАТЧ ЗАВЕРШЁН</span>
+        <h1 id="result-title">ПОБЕДА!</h1>
+        <p id="result-subtitle">Полигон зачищен.</p>
+        <button id="play-again" type="button">СЫГРАТЬ ЕЩЁ ↺</button>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Управление">
+      <div class="control-group move-group">
+        <div class="control-label">ПЕРЕМЕЩЕНИЕ <span id="steps-label">90 М</span></div>
+        <div class="button-pair">
+          <button id="move-left" class="control-button" type="button" aria-label="Шаг влево">◀</button>
+          <button id="move-right" class="control-button" type="button" aria-label="Шаг вправо">▶</button>
+        </div>
+      </div>
+      <div class="control-group angle-group">
+        <div class="control-label">УГОЛ <span id="angle-value">55°</span></div>
+        <div class="button-pair">
+          <button id="angle-down" class="control-button" type="button" aria-label="Повернуть орудие против часовой стрелки">−</button>
+          <button id="angle-up" class="control-button" type="button" aria-label="Повернуть орудие по часовой стрелке">+</button>
+        </div>
+      </div>
+      <div class="control-group power-group">
+        <label class="control-label" for="power">МОЩНОСТЬ <span id="power-value">70%</span></label>
+        <input id="power" type="range" min="25" max="100" step="1" value="70" aria-label="Мощность выстрела">
+        <div class="power-scale"><span>МИН</span><span>МАКС</span></div>
+      </div>
+      <button id="fire" class="fire-button" type="button"><span class="fire-icon">✳</span><span>ОГОНЬ!</span></button>
+    </section>
+
+    <footer class="footer">
+      <span><strong>ПРИЦЕЛ:</strong> тяни по полю от активного бойца</span>
+      <span><strong>ХОД:</strong> перемещение → прицел → выстрел</span>
+      <span><strong>ЦЕЛЬ:</strong> уничтожить противника</span>
+    </footer>
+  </main>
+  <script src="./game.js" defer></script>
+</body>
+</html>
