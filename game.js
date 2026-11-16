@@ -345,7 +345,7 @@
     } else if (id === "artillery" && chosenTarget) {
       artillerySpent[team]++;
       const target = {x: chosenTarget.x, y: chosenTarget.y};
-      addShot("artillery", target.x + 180, target.y - 640, 0, 0, team, {target});
+      addShot("artillery", target.x + (target.x > W - 260 ? -180 : 180), target.y - 640, 0, 0, team, {target});
       ui.message.textContent = "АРТИЛЛЕРИЯ! ТЯЖЁЛАЯ РАКЕТА ПОДХОДИТ К ЦЕЛИ";
     }
     camera.manual = false; ui.cameraMode.setAttribute("aria-pressed", "false");
@@ -426,9 +426,9 @@
   function grenadeBurst(shot) {
     explosion(shot.x, shot.y, 32, 22, shot.owner, "cluster");
     for (let i = 0; i < 5; i++) {
-      const a = rad(42 + i * 24 + rand(-6, 6));
+      const a = rad(145 - i * 27 + rand(-5, 5));
       const v = rand(210, 300);
-      addShot("mini", shot.x, shot.y - 9, Math.cos(a) * v * (i < 2 ? -1 : 1),
+      addShot("mini", shot.x, shot.y - 9, Math.cos(a) * v,
         -Math.sin(a) * v, shot.owner, {fuse: .85 + i * .11});
     }
     ui.message.textContent = "КЛАСТЕР РАСКРЫЛСЯ: 5 МИНИ-ГРАНАТ";
@@ -471,7 +471,7 @@
         let removed = false;
         if (p.kind === "artillery") {
           const progress = clamp(p.age / .85, 0, 1);
-          p.x = p.target.x + (1 - progress) * 180;
+          p.x = p.target.x + (1 - progress) * (p.target.x > W - 260 ? -180 : 180);
           p.y = p.target.y - (1 - progress) * 640;
         } else {
           p.vx += wind * (p.kind === "bullet" ? 1.2 : 8) * subdt;
